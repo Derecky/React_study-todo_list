@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useReducer, useState } from 'react';
 
 import { faker } from '@faker-js/faker';
 
@@ -15,40 +15,68 @@ interface ITaskContextProps {
 const TaskContext = createContext({} as ITaskContextProps);
 
 export function TaskProvider({children}: any){
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, dispatch] = useReducer((state: Task[], action: any) => {
+    switch (action.type) {
+      case 'ADD_TASK':
+        return [...state, action.payload]
+      case 'DELETE_TASK':
+      case 'COMPLETE_TASK':
+      default: return state
+    }
+    return state
+  }, []);
   const [countId, setCountID] = useState(0);
   const [completedTasksQuantity, setCompletedTasksQuantity] = useState(0);
 
   function addTask (taskTitle: string) {
-    const newTask = {
-      title: taskTitle,
-      id: faker.datatype.uuid(),
-      isChecked: false
-    }
-    console.log(newTask)
-    const newTasks = [...tasks, newTask]
-    setTasks(newTasks);
-    setCountID(countId + 1)
+    // const newTask = {
+    //   title: taskTitle,
+    //   id: faker.datatype.uuid(),
+    //   isChecked: false
+    // }
+    // const newTasks = [...tasks, newTask]
+    // setTasks(newTasks);
+    dispatch({
+      type: 'ADD_TASK',
+      payload: {
+        title: taskTitle,
+        id: faker.datatype.uuid(),
+        isChecked: false
+      }
+    })
   }
 
   function deleteTask (taskId: string) {
-    const newTasks = tasks.filter(task => task.id !== taskId)
-    setTasks(newTasks);
+    // const newTasks = tasks.filter(task => task.id !== taskId)
+    // setTasks(newTasks);
+    dispatch({
+      type: 'DELETE_TASK',
+      payload: {
+
+      }
+    })
+    
   }
 
   function switchCheck (taskId: string) {
-    const arr = [...tasks]
-    const newTasks = arr.map(task => {
-      if(task.id === taskId){
-        return {
-          ...task,
-          isChecked: !task.isChecked
-        }
-      }
-      return task
-    })
+    dispatch({
+      type: 'COMPLETE_TASK',
+      payload: {
 
-    setTasks(newTasks);
+      }
+    })
+    // const arr = [...tasks]
+    // const newTasks = arr.map(task => {
+    //   if(task.id === taskId){
+    //     return {
+    //       ...task,
+    //       isChecked: !task.isChecked
+    //     }
+    //   }
+    //   return task
+    // })
+
+    // setTasks(newTasks);
   }
 
   const store: ITaskContextProps = {
