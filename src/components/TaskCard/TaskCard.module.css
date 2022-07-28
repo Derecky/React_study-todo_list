@@ -1,0 +1,41 @@
+.cardContainer {
+  display: flex;
+  background-color: var(--gray-500);
+  border-radius: 8px;
+  padding: 0.5rem;
+  border: 1px solid var(--gray-400);
+  gap: 0.75rem;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.cardContainer input {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: none;
+}
+
+.cardContainer label {
+  line-height: 1.225rem;
+  font-size: 0.875rem;
+  color: var(--gray-100);
+  width: 42.75rem;
+
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.trashIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: transparent;
+}
+
+.completed {
+  color: var(--gray-300);
+  text-decoration: line-through;
+}
+
+.incompleted{
+  color: var(--gray-100);
+}
